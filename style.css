@@ -1,0 +1,102 @@
+.body {
+    height: 600px;
+    width: 500px;
+
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: auto;
+    
+    border: 5px solid black;
+    border-radius: 30px;
+    background-color: lightskyblue;
+
+    align-content: center;
+}
+
+#display {
+    height: 70px;
+    width: 450px;
+
+    background-color: whitesmoke;
+
+    border: 1px solid black;
+    border-radius: 5px;
+
+    margin-left: 25px;
+    margin-top: 20px;
+}
+.button-container {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.number-container {
+    display: flex;
+    flex-flow: row wrap;
+
+    width: 550px;
+
+    flex: 0 0 265px;
+    padding: 15px;
+
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
+
+
+.function-container {
+    display: flex;
+    flex-flow: column nowrap;
+
+    flex: 0 0 auto;
+
+    margin-top: 137px;
+    
+}
+
+.function-button {
+    display: flex;
+    flex: 0 1 auto;
+
+    width: 70px;
+    height: 70px;
+
+    border: 1px solid black;
+    border-radius: 5px;
+
+    margin-bottom: 10px;
+    margin-right: 5px;
+    padding: 5px;
+
+    background-color: antiquewhite;
+
+    text-align: center;
+}
+
+p {
+    margin: auto;
+    font-size: 1.5em;
+    font-style: "Arial";
+}
+
+#reset, #DEL, #CLR {
+    background-color: lightcoral;
+}
+
+#equal, #equate{
+    background-color: lightgoldenrodyellow;
+}
+
+#op, #plus, #minus, #mult, #div  {
+    background-color: lightgreen;
+}
+
+input[type="button"] {
+    margin: auto;
+    font-size: 1.5em;
+    font-style: "Arial";
+    border:none;
+} 
