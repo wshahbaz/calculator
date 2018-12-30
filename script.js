@@ -1,52 +1,84 @@
 //initialize containers
-let btn1 = document.querySelector("#one");
-let btn2 = document.querySelector("#two");
-let btn3 = document.querySelector("#three");
-let btn4 = document.querySelector("#four");
-let btn5 = document.querySelector("#five");
-let btn6 = document.querySelector("#six");
-let btn7 = document.querySelector("#seven");
-let btn8 = document.querySelector("#eight");
-let btn9 = document.querySelector("#nine");
+let btn1 = document.getElementById("one");
+let btn2 = document.getElementById("two");
+let btn3 = document.getElementById("three");
+let btn4 = document.getElementById("four");
+let btn5 = document.getElementById("five");
+let btn6 = document.getElementById("six");
+let btn7 = document.getElementById("seven");
+let btn8 = document.getElementById("eight");
+let btn9 = document.getElementById("nine");
+let btn0 = document.getElementById("zero");
 
-let btnPlus = document.querySelector("#plus");
-let btnMinus = document.querySelector("#minus");
-let btnMult = document.querySelector("#mult");
-let btnDiv = document.querySelector("#div");
+let btnPlus = document.getElementById("plus");
+let btnMinus = document.getElementById("minus");
+let btnMult = document.getElementById("mult");
+let btnDiv = document.getElementById("div");
 
-let btnCLR = document.querySelector("#CLR");
-let btnDec = document.querySelector("#dec");
-let btnDEL = document.querySelector("#DEL");
+let btnCLR = document.getElementById("CLR");
+let btnDec = document.getElementById("dec");
+let btnDEL = document.getElementById("DEL");
 
-let btnEquate = document.querySelector("#equate");
+let btnEquate = document.getElementById("equate");
 
-const display = document.querySelector("#display");
+const display = document.getElementById("display");
 
 //event listeners
-btn1.addEventListener("click", include("1"));
-btn2.addEventListener("click", include("2"));
-btn3.addEventListener("click", include("3"));
-btn4.addEventListener("click", include("4"));
-btn5.addEventListener("click", include("5"));
-btn6.addEventListener("click", include("6"));
-btn7.addEventListener("click", include("7"));
-btn8.addEventListener("click", include("8"));
-btn9.addEventListener("click", include("9"));
+btn1.addEventListener("click", function() {
+  include("1");
+});
+btn2.addEventListener("click", function() {
+  include("2");
+});
+btn3.addEventListener("click", function() {
+  include("3");
+});
+btn4.addEventListener("click", function() {
+  include("4");
+});
+btn5.addEventListener("click", function() {
+  include("5");
+});
+btn6.addEventListener("click", function() {
+  include("6");
+});
+btn7.addEventListener("click", function() {
+  include("7");
+});
+btn8.addEventListener("click", function() {
+  include("8");
+});
+btn9.addEventListener("click", function() {
+  include("9");
+});
+btn0.addEventListener("click", function() {
+    include("0");
+});
 
-btnPlus.addEventListener("click", include(' + '));
-btnMinus.addEventListener("click", include(" - "));
-btnMult.addEventListener("click", include(" x "));
-btnDiv.addEventListener("click", include(" / "));
+btnPlus.addEventListener("click", function() {
+  include(' + ')
+});
+btnMinus.addEventListener("click", function() {
+  include(" - ");
+});
+btnMult.addEventListener("click", function() {
+  include(" x ");
+});
+btnDiv.addEventListener("click", function() {
+  include(" / ");
+});
 
-btnCLR.addEventListener("click", clearDisp());
-btnDec.addEventListener("click", include("."));
-btnDEL.addEventListener("click", deleteItem());
+btnCLR.addEventListener("click", clearDisp);
+btnDec.addEventListener("click", function() {
+    include(".")
+  });
+btnDEL.addEventListener("click", deleteItem);
 
-btnEquate.addEventListener("click", equate());
+btnEquate.addEventListener("click", equate);
 
 
 //variables
-var equation = "";
+var equation = "= ";
 
 //add equation to display
 var eqnDisp = document.createElement("p");
@@ -57,7 +89,7 @@ display.appendChild(eqnDisp);
 
 //functions
 function include(value) {
-    equation.concat(value);
+    equation += value;
     updateDisplay();
 }
 
@@ -66,53 +98,76 @@ function updateDisplay() {
 }
 
 function clearDisp() {
-    equation = "";
+    equation = "= ";
     updateDisplay();
 }
 
-function deleteItem() {
-    equation.pop();
+ function deleteItem() {
+    if (equation.length > 1) {
+        equation = equation.slice(0, equation.length-1);
+    }
     updateDisplay();
 }
+
 
 function equate() {
     //keep shortening equation string until a single element (ans)
-    let terms = equation.split(" ");
+    let terms = equation.replace("  ", " ");
+    terms = terms.split(" ");
     let opIndex = 0;
     let opVal = 0;
 
     //consider if equation begins with minus sign for negativity
-    if (terms[0] == "-") {
-        opVal = parseFloat(terms[1]) * -1;
-        terms.splice(0,2, String(opVal));
+    if (terms[1] == "-") {
+        opVal = parseFloat(terms[2]) * -1;
+        terms.splice(1,2, String(opVal));
     }
 
-    while (isEquationDone(terms)) {
+    while (!isEquationDone(terms)) {
         //look for multiply
-        opIndex = equation.indexOf("x");
+        opIndex = terms.indexOf("x");
         terms = updateEquation(terms, opIndex, "x"); 
         //look for division
-        opIndex = equation.indexOf("/");
+        opIndex = terms.indexOf("/");
         terms = updateEquation(terms, opIndex, "/"); 
         //look for subtraction
-        opIndex = equation.indexOf("-");
+        opIndex = terms.indexOf("-");
         terms = updateEquation(terms, opIndex, "-"); 
         //look for addition
-        opIndex = equation.indexOf("+");
+        opIndex = terms.indexOf("+");
         terms = updateEquation(terms, opIndex, "+"); 
     }
 }
 
 function isEquationDone(terms) {
-    const leftOverTerms = terms.filter(term => typeof(term) == Number);
+    const leftOverTerms = terms.filter(isNumber);
+   // leftOverTerms = terms.filter(isNotEmpty);
 
     if (leftOverTerms.length == 1)
     {
         equation = leftOverTerms;
+        equation = Math.round(equation * 1E5) / 1E5;
         updateDisplay();
         return true;
     }
 }
+
+function isNumber(value) {
+
+    if (parseFloat(value)) {
+        return true;
+    }
+    return false;
+}
+
+/*
+function isNotEmpty(value) {
+    if (value == "") {
+        return false;
+    }
+    return true;
+}
+*/
 
 function updateEquation(terms, opIndex, operator)
 {
@@ -129,4 +184,5 @@ function updateEquation(terms, opIndex, operator)
         }
         terms.splice(opIndex-1, 3, String(resultTerm));
     }
-}
+    return terms;
+} 
