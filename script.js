@@ -83,7 +83,7 @@ var equation = "= ";
 //add equation to display
 var eqnDisp = document.createElement("p");
 eqnDisp.classList.add("eqnDisp");
-eqnDisp.textContent = "PLEASE DISPLAY";
+eqnDisp.textContent = "";
 display.appendChild(eqnDisp);
 
 
@@ -141,7 +141,6 @@ function equate() {
 
 function isEquationDone(terms) {
     const leftOverTerms = terms.filter(isNumber);
-   // leftOverTerms = terms.filter(isNotEmpty);
 
     if (leftOverTerms.length == 1)
     {
@@ -160,14 +159,6 @@ function isNumber(value) {
     return false;
 }
 
-/*
-function isNotEmpty(value) {
-    if (value == "") {
-        return false;
-    }
-    return true;
-}
-*/
 
 function updateEquation(terms, opIndex, operator)
 {
